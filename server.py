@@ -3,7 +3,12 @@ import json
 import random
 from flask import Flask, render_template, request, redirect, url_for, make_response
 
-app = Flask(__name__)
+
+app = Flask(__name__,
+            static_url_path='',
+            static_folder='static',
+            template_folder='templates')
+
 
 @app.route('/', methods=['GET', 'POST'])
 def form():
@@ -21,12 +26,21 @@ def form():
     return render_template('form.html')
 
 
-@app.route('/<article_name>')
+@app.route('/<article_name>', methods=['GET', 'POST'])
 def render_article(article_name):
-    article = json_load(''.join(['articles/', article_name, '.json']))
+    article_filename = ''.join(['articles/', article_name, '.json'])
+    article = json_load(article_filename)
     if not article:
         return 'Not found'
-    return render_template('article.html', article=article)
+    can_edit = True if article['unid'] in request.cookies else False
+    if can_edit and request.method == 'POST':
+        new_article_values = {'header': request.form['header'],
+                              'signature': request.form['signature'],
+                              'body': request.form['body']}
+        article.update(new_article_values)
+        json_dump(article, article_filename)
+        return redirect(url_for('render_article', article_name = article_name))
+    return render_template('article.html', article=article, can_edit=can_edit)
 
 
 def json_dump(dumping_dict, filepath):
