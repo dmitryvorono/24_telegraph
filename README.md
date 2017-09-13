@@ -4,7 +4,7 @@ Telegraph Clone is a clone of [telegra.ph](http://telegra.ph/). Everyone can use
 
 [Open app](https://ancient-basin-28805.herokuapp.com)
 
-#How to install local
+# How to install local
 
 Python 3 should be already installed. Then use pip (or pip3 if there is a conflict with old Python 2 setup) to install dependencies:
 
