@@ -55,8 +55,9 @@ def json_load(filepath):
         return json.load(file_handler)
 
 
-def generate_unid():
-    return ''.join([str(hex(random.randrange(16)))[2] for x in range(32)])
+def generate_unid(length_unid):
+    count_digits = 16
+    return ''.join([str(hex(random.randrange(count_digits)))[2] for x in range(length_unid)])
 
 
 if __name__ == "__main__":
