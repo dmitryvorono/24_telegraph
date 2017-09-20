@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, make_respo
 from datetime import date
 from transliterate import translit
 import re
+import uuid
 
 
 app = Flask(__name__,
@@ -20,7 +21,7 @@ def form():
         article = {'header': request.form['header'],
                    'signature': request.form['signature'],
                    'body': request.form['body'],
-                   'unid': generate_unid(32)}
+                   'unid': str(uuid.uuid4())}
         article_filepath, article['filename'] = generate_unique_article_name(article)
         json_dump(article, article_filepath)
         redirect_to_article = redirect(url_for('render_article', article_name = article['filename']))
@@ -62,11 +63,6 @@ def json_load(filepath):
         return None
     with open(filepath, 'r') as file_handler:
         return json.load(file_handler)
-
-
-def generate_unid(length_unid):
-    count_digits = 16
-    return ''.join([str(hex(random.randrange(count_digits)))[2] for x in range(length_unid)])
 
 
 def generate_unique_article_name(article, length_name=100):
