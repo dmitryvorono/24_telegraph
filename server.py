@@ -36,7 +36,7 @@ def render_article(article_name):
     article = json_load(article_filename)
     if not article:
         abort(HTTPStatus.NOT_FOUND.value)
-    can_edit = True if article['unid'] in request.cookies else False
+    can_edit = bool(article['unid'] in request.cookies)
     if can_edit and request.method == 'POST':
         new_article_values = {'header': request.form['header'],
                               'signature': request.form['signature'],
