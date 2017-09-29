@@ -64,8 +64,8 @@ def json_load(filepath):
         return json.load(file_handler)
 
 
-def generate_unique_article_name(article, length_name=100):
-    article_header_latin = translit(article['header'], "ru", reversed=True)
+def generate_unique_article_name(article_header, length_name=100):
+    article_header_latin = translit(article_header, "ru", reversed=True)
     prepared_article_header_latin = re.sub(' ', '-', re.sub('\W+', ' ', article_header_latin))[:length_name]
     index_article = 1
     current_date = date.today()
