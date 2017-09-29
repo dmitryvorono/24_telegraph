@@ -21,7 +21,7 @@ def form():
                    'signature': request.form['signature'],
                    'body': request.form['body'],
                    'unid': str(uuid.uuid4())}
-        article_filepath, article['filename'] = generate_unique_article_name(article)
+        article_filepath, article['filename'] = generate_unique_article_name(article['header'])
         json_dump(article, article_filepath)
         redirect_to_article = redirect(url_for('render_article', article_name=article['filename']))
         response = make_response(redirect_to_article)
